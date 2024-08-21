@@ -1,31 +1,41 @@
-package Q2.grafo;
+package grafo;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Comparator;
 
-public class Vertice<T> {
+public class Vertice<T extends Comparable<T>> {
     private T valor;
-    private Set<Vertice<T>> adjacentes;
+    private List<Vertice<T>> adjacentes;
     private int tempoChegada;
     private int tempoPartida;
 
     public Vertice(T valor) {
         this.valor = valor;
-        this.adjacentes = new HashSet<>();
-        this.tempoChegada = -1; // Valor padrão indicando que o tempo não foi definido
-        this.tempoPartida = -1; // Valor padrão indicando que o tempo não foi definido
+        this.adjacentes = new ArrayList<>();
+        this.tempoChegada = -1;  // Inicialmente -1, indicando que ainda não foi visitado
+        this.tempoPartida = -1;  // Inicialmente -1, indicando que ainda não foi visitado
     }
 
     public T getValor() {
         return valor;
     }
 
-    public Set<Vertice<T>> getAdjacentes() {
+    public List<Vertice<T>> getAdjacentes() {
         return adjacentes;
     }
 
     public void adicionarAdjacente(Vertice<T> adjacente) {
         adjacentes.add(adjacente);
+        Collections.sort(adjacentes, new VerticeComparator<T>());
+    }
+
+    public class VerticeComparator<T extends Comparable<T>> implements Comparator<Vertice<T>> {
+        @Override
+        public int compare(Vertice<T> v1, Vertice<T> v2) {
+            return v1.getValor().compareTo(v2.getValor());
+        }
     }
 
     public void removerAdjacente(Vertice<T> adjacente) {

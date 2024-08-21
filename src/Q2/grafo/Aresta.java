@@ -1,6 +1,6 @@
-package Q2.grafo;
+package grafo;
 
-public class Aresta<T> {
+public class Aresta<T extends Comparable<T>> {
     private Vertice<T> vertice1;
     private Vertice<T> vertice2;
 

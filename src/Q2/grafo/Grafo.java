@@ -1,21 +1,20 @@
-package Q2.grafo;
+package grafo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Grafo<T> {
-    private ArrayList<Vertice<T>> vertices;
-    private ArrayList<Aresta<T>> arestas;
+public class Grafo<T extends Comparable<T>> {
+    private List<Vertice<T>> vertices;
     private int tempo;
-    private ArrayList<Vertice<T>> visitados;
-    private ArrayList<Integer> temposDeChegada;
-    private ArrayList<Integer> temposDePartida;
+    private Set<Vertice<T>> visitados;
+    private Set<Vertice<T>> recStack; // Pilha de recursão para detecção de ciclos
 
     public Grafo() {
         this.vertices = new ArrayList<>();
-        this.arestas = new ArrayList<>();
-        this.visitados = new ArrayList<>();
-        this.temposDeChegada = new ArrayList<>();
-        this.temposDePartida = new ArrayList<>();
+        this.visitados = new HashSet<>();
+        this.recStack = new HashSet<>();
         this.tempo = 0;
     }
 
@@ -24,15 +23,12 @@ public class Grafo<T> {
         this.vertices.add(novoVertice);
     }
 
-    public void inserirAresta(Double peso, T dadoInicio, T dadoFim) {
+    public void inserirAresta( T dadoInicio, T dadoFim) {
         Vertice<T> inicio = this.pegarVertice(dadoInicio);
         Vertice<T> fim = this.pegarVertice(dadoFim);
 
         if (inicio != null && fim != null) {
-            Aresta<T> aresta = new Aresta<>(inicio, fim);
             inicio.adicionarAdjacente(fim);
-            fim.adicionarAdjacente(inicio); // Se o grafo é não direcionado
-            this.arestas.add(aresta);
         }
     }
 
@@ -57,8 +53,6 @@ public class Grafo<T> {
 
     public void imprimirTemposDFS() {
         visitados.clear();
-        temposDeChegada.clear();
-        temposDePartida.clear();
         tempo = 0;
 
         for (Vertice<T> vertice : vertices) {
@@ -68,16 +62,14 @@ public class Grafo<T> {
         }
 
         for (Vertice<T> vertice : vertices) {
-            int index = vertices.indexOf(vertice);
             System.out.println(vertice.getValor() + " (Chegada: " + vertice.getTempoChegada() + ", Partida: " + vertice.getTempoPartida() + ")");
         }
     }
 
     private void buscaEmProfundidadeVisitante(Vertice<T> vertice) {
-        vertice.setTempoChegada(tempo++); // Define o tempo de chegada e incrementa o tempo
+        vertice.setTempoChegada(tempo++);  // Atualiza o tempo de chegada
         visitados.add(vertice);
-        int index = vertices.indexOf(vertice);
-        temposDeChegada.add(vertice.getTempoChegada());
+        recStack.add(vertice);
 
         for (Vertice<T> vizinho : vertice.getAdjacentes()) {
             if (!visitados.contains(vizinho)) {
@@ -85,7 +77,8 @@ public class Grafo<T> {
             }
         }
 
-        vertice.setTempoPartida(tempo++); // Define o tempo de partida e incrementa o tempo
-        temposDePartida.add(vertice.getTempoPartida());
+        vertice.setTempoPartida(tempo++);  // Atualiza o tempo de partida
+        recStack.remove(vertice);
     }
+
 }
