@@ -1,4 +1,4 @@
-package grafo;
+package Grafo.src.Q2.grafo;
 
 import java.util.ArrayList;
 import java.util.List;

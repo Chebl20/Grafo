@@ -1,4 +1,4 @@
-package grafo;
+package Grafo.src.Q2.grafo;
 
 public class Aresta<T extends Comparable<T>> {
     private Vertice<T> vertice1;

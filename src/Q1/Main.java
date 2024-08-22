@@ -1,6 +1,7 @@
-package Q1;
+package Grafo.src.Q1;
 
-import Q1.grafo.Grafo;
+
+import Grafo.src.Q1.grafo.Grafo;
 
 public class Main {
     public static void main(String[] args) {
