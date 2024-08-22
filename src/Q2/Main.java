@@ -3,7 +3,7 @@ package Grafo.src.Q2;
 
 import Grafo.src.Q2.grafo.Grafo;
 
-public class Main {
+    public class Main {
     public static void main(String[] args) {
         // Criação do grafo com vértices do tipo Integer
         Grafo<Integer> meuGrafo = new Grafo<>();
