@@ -13,6 +13,7 @@ public class Main {
         try {
             System.out.println("Grafo por arquivo:");
             meuGrafo.carregarDeArquivo("src/Grafo/src/Q2/arquivo1.txt");
+            meuGrafo.salvarDadosEmArquivo("src/Grafo/src/Q2/saida1.txt");
             meuGrafo.imprimirGrafo();
             meuGrafo.imprimirTemposDFS();
         } catch (IOException e) {

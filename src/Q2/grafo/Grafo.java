@@ -1,8 +1,6 @@
 package Grafo.src.Q2.grafo;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
@@ -127,6 +125,35 @@ public class Grafo<T extends Comparable<T>> {
         br.close();
     }
 
+    public void salvarDadosEmArquivo(String nomeArquivo) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            // Salva a estrutura do grafo
+            bw.write("Estrutura do Grafo\n");
+            for (Vertice<T> vertice : vertices) {
+                bw.write(vertice.getValor() + ": ");
+                for (Vertice<T> adj : vertice.getAdjacentes()) {
+                    bw.write(adj.getValor() + " ");
+                }
+                bw.newLine();
+            }
+
+            // Salva os tempos de DFS
+            bw.newLine();
+            bw.write("Tempos de DFS\n");
+            visitados.clear();
+            tempo = 0;
+
+            for (Vertice<T> vertice : vertices) {
+                if (!visitados.contains(vertice)) {
+                    buscaEmProfundidadeVisitante(vertice);
+                }
+            }
+
+            for (Vertice<T> vertice : vertices) {
+                bw.write(vertice.getValor() + " (Chegada: " + vertice.getTempoChegada() + ", Partida: " + vertice.getTempoPartida() + ")\n");
+            }
+        }
+    }
 
 
 }
