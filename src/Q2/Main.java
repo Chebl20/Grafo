@@ -3,10 +3,21 @@ package Grafo.src.Q2;
 
 import Grafo.src.Q2.grafo.Grafo;
 
-    public class Main {
+import java.io.IOException;
+
+public class Main {
     public static void main(String[] args) {
         // Criação do grafo com vértices do tipo Integer
         Grafo<Integer> meuGrafo = new Grafo<>();
+
+        try {
+            System.out.println("Grafo por arquivo:");
+            meuGrafo.carregarDeArquivo("src/Grafo/src/Q2/arquivo1.txt");
+            meuGrafo.imprimirGrafo();
+            meuGrafo.imprimirTemposDFS();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Inserindo vértices
         meuGrafo.inserirVertice(0);
