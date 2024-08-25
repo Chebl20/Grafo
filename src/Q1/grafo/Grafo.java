@@ -1,8 +1,6 @@
 package Grafo.src.Q1.grafo;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -129,6 +127,16 @@ public class Grafo<T extends Comparable<T>> {
         br.close();
     }
 
-
+    public void salvarEmArquivo(String nomeArquivo) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            for (Vertice<T> vertice : vertices) {
+                bw.write(vertice.getValor() + ": ");
+                for (Vertice<T> adj : vertice.getAdjacentes()) {
+                    bw.write(adj.getValor() + " ");
+                }
+                bw.newLine();
+            }
+        }
+    }
 
 }

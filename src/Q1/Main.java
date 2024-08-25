@@ -24,6 +24,7 @@ public class Main {
             meuGrafo.carregarDeArquivo("src/Grafo/src/Q1/arquivo.txt");
             meuGrafo.removerAresta("VerticeA", "VerticeC");
             meuGrafo.imprimirGrafo();
+            meuGrafo.salvarEmArquivo("src/Grafo/src/Q1/saida.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }

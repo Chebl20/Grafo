@@ -47,4 +47,3 @@ public class Vertice <T> {
         return this.arestasEntrada.size() + this.arestasSaida.size();
     }
 }
-
