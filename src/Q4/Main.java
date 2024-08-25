@@ -12,10 +12,11 @@ public class Main {
         try {
             System.out.println("Grafo por arquivo:");
             grafo.carregarDeArquivo("src/Grafo/src/Q4/arquivo3.txt");
-            grafo.ehBipartido();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        grafo.ehBipartido();
         //Caso sem ser Bipartido
 //        // Inserindo os vértices
 //        grafo.inserirVertice("A");

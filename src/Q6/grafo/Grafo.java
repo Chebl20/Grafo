@@ -204,7 +204,7 @@ public class Grafo<T extends Comparable<T>> {
     public boolean contemVertice(T dado) {
         return this.pegarVertice(dado) != null;
     }
-    public void carregarDeArquivo(String nomeArquivo) throws IOException {
+    public void carregarDoArquivo(String nomeArquivo) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
             String linha;
 
@@ -255,10 +255,53 @@ public class Grafo<T extends Comparable<T>> {
             }
         }
     }
+    public void carregarDeArquivo(String caminhoArquivo) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+
+            while ((linha = reader.readLine()) != null) {
+                linha = linha.trim(); // Remove espaços em branco desnecessários
+
+                // Verifica se a linha não está vazia e contém os delimitadores corretos
+                if (!linha.isEmpty() && linha.contains(";")) {
+                    String[] partes = linha.split(";");
+                    if (partes.length == 3) { // Verifica se há 3 partes (vértice início, vértice fim, peso)
+                        T verticeInicio = (T) partes[0].trim();
+                        T verticeFim = (T) partes[1].trim();
+                        Double peso;
+
+                        try {
+                            peso = Double.parseDouble(partes[2].trim());
+                        } catch (NumberFormatException e) {
+                            System.err.println("Peso inválido na linha: " + linha);
+                            continue; // Ignora a linha com peso inválido
+                        }
+
+                        // Adiciona os vértices se ainda não existirem
+                        adicionarVerticeSeNaoExistir(verticeInicio);
+                        adicionarVerticeSeNaoExistir(verticeFim);
+
+                        // Adiciona a aresta entre os vértices
+                        inserirAresta(verticeInicio, verticeFim, peso);
+                    } else {
+                        System.err.println("Formato de linha inválido: " + linha);
+                    }
+                }
+            }
+        }
+    }
+
+    private void adicionarVerticeSeNaoExistir(T vertice) {
+        if (!contemVertice(vertice)) {
+            inserirVertice(vertice);
+        }
+    }
 
 
     private int pegarIndice(Vertice<T> v) {
         return vertices.indexOf(v);
     }
+
+
 
 }

@@ -12,39 +12,41 @@ public class Main {
         // Criação do grafo
         Grafo<String> grafo = new Grafo<>();
 
-//        try {
-//            System.out.println("Grafo por arquivo:");
-//            grafo.carregarDeArquivo("src/Grafo/src/Q6/arquivo5.txt");
-////            grafo.ehBipartido();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            System.out.println("Grafo por arquivo:");
+            grafo.carregarDeArquivo("src/Grafo/src/Q6/arquivo5.txt");
+            grafo.imprimirGrafo();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 //
 ////         Inserir vértices
-        grafo.inserirVertice("A");
-        grafo.inserirVertice("B");
-        grafo.inserirVertice("C");
-        grafo.inserirVertice("D");
-        grafo.inserirVertice("E");
-        grafo.inserirVertice("F");
-        grafo.inserirVertice("G");
+//        grafo.inserirVertice("A");
+//        grafo.inserirVertice("B");
+//        grafo.inserirVertice("C");
+//        grafo.inserirVertice("D");
+//        grafo.inserirVertice("E");
+//        grafo.inserirVertice("F");
+//        grafo.inserirVertice("G");
 
         // Inserir arestas
-        grafo.inserirAresta("A", "B", 7.0);
-        grafo.inserirAresta("B", "C", 8.0);
-        grafo.inserirAresta("C", "D", 5.0);
-        grafo.inserirAresta("D", "E", 9.0);
-        grafo.inserirAresta("E", "F", 11.0);
-        grafo.inserirAresta("F", "G", 6.0);
-        grafo.inserirAresta("A", "G", 5.0);
-
-        grafo.inserirAresta("B", "D", 7.0);
-
-        grafo.inserirAresta("F", "D", 8.0);
-
-        grafo.inserirAresta("G", "D", 15.0);
-
-        grafo.inserirAresta("B", "G", 9.0);
+//        grafo.inserirAresta("A", "B", 7.0);
+//        grafo.inserirAresta("B", "C", 8.0);
+//        grafo.inserirAresta("C", "D", 5.0);
+//        grafo.inserirAresta("D", "E", 9.0);
+//        grafo.inserirAresta("E", "F", 11.0);
+//        grafo.inserirAresta("F", "G", 6.0);
+//        grafo.inserirAresta("A", "G", 5.0);
+//
+//        grafo.inserirAresta("B", "D", 7.0);
+//
+//        grafo.inserirAresta("F", "D", 8.0);
+//
+//        grafo.inserirAresta("G", "D", 15.0);
+//
+//        grafo.inserirAresta("B", "G", 9.0);
 
         List<Aresta<String>> mst = grafo.chevi();
         System.out.println("Árvore Geradora Mínima:");
@@ -57,10 +59,10 @@ public class Main {
         List<Vertice<String>> ciclo = grafo.geraCiclo(verticeOrigem);
         System.out.println("\nRota calculada :");
         grafo.imprimirCiclo(ciclo);
-//        System.out.println("\nRota calculada 2  :");
-//
-//        for (Vertice<String> vertice : ciclo) {
-//            System.out.println(vertice.getValor());
-//        }
+        System.out.println("\nRota calculada 2  :");
+
+        for (Vertice<String> vertice : ciclo) {
+            System.out.println(vertice.getValor());
+        }
     }
 }

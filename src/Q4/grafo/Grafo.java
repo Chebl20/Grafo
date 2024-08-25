@@ -103,44 +103,55 @@ public class Grafo<T extends Comparable<T>> {
     }
 
     public void carregarDeArquivo(String nomeArquivo) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(nomeArquivo));
-        String linha;
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+            String linha;
 
-        while ((linha = br.readLine()) != null) {
-            // Remove espaços em branco ao redor da linha
-            linha = linha.trim();
+            while ((linha = br.readLine()) != null) {
+                linha = linha.trim(); // Remove espaços em branco ao redor da linha
 
-            // Verifica se a linha não está vazia
-            if (!linha.isEmpty()) {
-                // Verifica se a linha contém uma aresta (contém ';')
-                if (linha.contains(";")) {
-                    String[] vertices = linha.split(";");
+                // Verifica se a linha não está vazia
+                if (!linha.isEmpty()) {
+                    // Verifica se a linha contém uma aresta (contém ';')
+                    if (linha.contains(";")) {
+                        String[] partes = linha.split(";");
 
-                    // Remover espaços em branco dos vértices
-                    T valorInicio = (T) vertices[0].trim();
-                    T valorFim = (T) vertices[1].trim();
+                        // Verifica se há exatamente 2 partes (vértice início e vértice fim)
+                        if (partes.length == 2) {
+                            T valorInicio = (T) partes[0].trim();
+                            T valorFim = (T) partes[1].trim();
 
-                    // Verifica se os vértices não são vazios
-                    if (!valorInicio.equals("") && !valorFim.equals("")) {
-                        if (!contemVertice(valorInicio)) {
-                            inserirVertice(valorInicio);
+                            // Verifica se os vértices não são vazios
+                            if (!valorInicio.equals("") && !valorFim.equals("")) {
+                                adicionarVerticeSeNaoExistir(valorInicio);
+                                adicionarVerticeSeNaoExistir(valorFim);
+
+                                // Adiciona a aresta entre os vértices
+                                inserirAresta(valorInicio, valorFim);
+                            } else {
+                                System.err.println("Vértices inválidos na linha: " + linha);
+                            }
+                        } else {
+                            System.err.println("Formato de linha inválido: " + linha);
                         }
-                        if (!contemVertice(valorFim)) {
-                            inserirVertice(valorFim);
+                    } else {
+                        // Caso contrário, trata como um vértice isolado
+                        T valorVertice = (T) linha.trim();
+                        if (!valorVertice.equals("")) {
+                            adicionarVerticeSeNaoExistir(valorVertice);
+                        } else {
+                            System.err.println("Vértice inválido na linha: " + linha);
                         }
-                        inserirAresta(valorInicio, valorFim);
-                    }
-                } else {
-                    // Caso contrário, trata como um vértice isolado
-                    T valorVertice = (T) linha.trim();
-                    if (!contemVertice(valorVertice)) {
-                        inserirVertice(valorVertice);
                     }
                 }
             }
         }
-
-        br.close();
     }
+
+    private void adicionarVerticeSeNaoExistir(T vertice) {
+        if (!contemVertice(vertice)) {
+            inserirVertice(vertice);
+        }
+    }
+
 
 }
