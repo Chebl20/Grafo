@@ -1,5 +1,8 @@
 package Grafo.src.Q4.grafo;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +44,9 @@ public class Grafo<T extends Comparable<T>> {
             }
         }
         return null;
+    }
+    public boolean contemVertice(T dado) {
+        return this.pegarVertice(dado) != null;
     }
 
     public void imprimirGrafo() {
@@ -95,4 +101,46 @@ public class Grafo<T extends Comparable<T>> {
         }
         return true;
     }
+
+    public void carregarDeArquivo(String nomeArquivo) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(nomeArquivo));
+        String linha;
+
+        while ((linha = br.readLine()) != null) {
+            // Remove espaços em branco ao redor da linha
+            linha = linha.trim();
+
+            // Verifica se a linha não está vazia
+            if (!linha.isEmpty()) {
+                // Verifica se a linha contém uma aresta (contém ';')
+                if (linha.contains(";")) {
+                    String[] vertices = linha.split(";");
+
+                    // Remover espaços em branco dos vértices
+                    T valorInicio = (T) vertices[0].trim();
+                    T valorFim = (T) vertices[1].trim();
+
+                    // Verifica se os vértices não são vazios
+                    if (!valorInicio.equals("") && !valorFim.equals("")) {
+                        if (!contemVertice(valorInicio)) {
+                            inserirVertice(valorInicio);
+                        }
+                        if (!contemVertice(valorFim)) {
+                            inserirVertice(valorFim);
+                        }
+                        inserirAresta(valorInicio, valorFim);
+                    }
+                } else {
+                    // Caso contrário, trata como um vértice isolado
+                    T valorVertice = (T) linha.trim();
+                    if (!contemVertice(valorVertice)) {
+                        inserirVertice(valorVertice);
+                    }
+                }
+            }
+        }
+
+        br.close();
+    }
+
 }

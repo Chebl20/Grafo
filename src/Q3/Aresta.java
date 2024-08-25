@@ -1,17 +1,17 @@
 package Grafo.src.Q3;
 
-public class Aresta<Interger> {
+public class Aresta<T> {
     private Double peso;
-    private Vertice<Interger> inicio;
-    private Vertice<Interger> fim;
+    private Vertice<T> inicio;
+    private Vertice<T> fim;
 
-    public Aresta(Double peso, Vertice<Interger> inicio, Vertice<Interger> fim) {
+    public Aresta(Double peso, Vertice<T> inicio, Vertice<T> fim) {
         this.peso = peso;
         this.inicio = inicio;
         this.fim = fim;
     }
 
-    public Aresta(Vertice<Interger> inicio, Vertice<Interger> fim) {
+    public Aresta(Vertice<T> inicio, Vertice<T> fim) {
         this.inicio = inicio;
         this.fim = fim;
     }
@@ -24,19 +24,19 @@ public class Aresta<Interger> {
         this.peso = peso;
     }
 
-    public Vertice<Interger> getInicio() {
+    public Vertice<T> getInicio() {
         return inicio;
     }
 
-    public void setInicio(Vertice<Interger> inicio) {
+    public void setInicio(Vertice<T> inicio) {
         this.inicio = inicio;
     }
 
-    public Vertice<Interger> getFim() {
+    public Vertice<T> getFim() {
         return fim;
     }
 
-    public void setFim(Vertice<Interger> fim) {
+    public void setFim(Vertice<T> fim) {
         this.fim = fim;
     }
 }

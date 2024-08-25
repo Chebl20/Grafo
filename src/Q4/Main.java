@@ -3,9 +3,19 @@ package Grafo.src.Q4;
 
 import Grafo.src.Q4.grafo.Grafo;
 
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
         Grafo<String> grafo = new Grafo<>();
+//
+//        try {
+//            System.out.println("Grafo por arquivo:");
+//            grafo.carregarDeArquivo("src/Grafo/src/Q4/arquivo3.txt");
+//            grafo.ehBipartido();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         //Caso sem ser Bipartido
 //        // Inserindo os vértices
 //        grafo.inserirVertice("A");

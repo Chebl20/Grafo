@@ -1,42 +1,45 @@
 package Grafo.src.Q3;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Grafo<Interger> {
-    private ArrayList<Interger> valor;
-    private ArrayList<Vertice<Interger>> vertices;
-    private ArrayList<Aresta<Interger>> arestas;
+public class Grafo<T> {
+    private ArrayList<T> valor;
+    private ArrayList<Vertice<T>> vertices;
+    private ArrayList<Aresta<T>> arestas;
 
     public Grafo() {
-        this.vertices = new ArrayList<Vertice<Interger>>();
-        this.arestas = new ArrayList<Aresta<Interger>>();
+        this.vertices = new ArrayList<Vertice<T>>();
+        this.arestas = new ArrayList<Aresta<T>>();
     }
 
-    public void adicionarVertice(Interger dado) {
-        Vertice<Interger> novoVertice = new Vertice<Interger>(dado);
+    public void adicionarVertice(T dado) {
+        Vertice<T> novoVertice = new Vertice<T>(dado);
         this.vertices.add(novoVertice);
     }
 
-    public void adicionarAresta(Double peso, Interger dadoInicio, Interger dadoFim) {
-        Vertice<Interger> inicio = this.getVertice(dadoInicio);
-        Vertice<Interger> fim = this.getVertice(dadoFim);
-        Aresta<Interger> aresta = new Aresta<Interger>(peso, inicio, fim);
+    public void adicionarAresta(Double peso, T dadoInicio, T dadoFim) {
+        Vertice<T> inicio = this.getVertice(dadoInicio);
+        Vertice<T> fim = this.getVertice(dadoFim);
+        Aresta<T> aresta = new Aresta<T>(peso, inicio, fim);
         inicio.adicionarArestaSaida(aresta);
         fim.adicionarArestaEntrada(aresta);
         this.arestas.add(aresta);
     }
 
-    public void adicionarAresta(Interger dadoInicio, Interger dadoFim) {
-        Vertice<Interger> inicio = this.getVertice(dadoInicio);
-        Vertice<Interger> fim = this.getVertice(dadoFim);
-        Aresta<Interger> aresta = new Aresta<Interger>(inicio, fim);
+    public void adicionarAresta(T dadoInicio, T dadoFim) {
+        Vertice<T> inicio = this.getVertice(dadoInicio);
+        Vertice<T> fim = this.getVertice(dadoFim);
+        Aresta<T> aresta = new Aresta<T>(inicio, fim);
         inicio.adicionarArestaSaida(aresta);
         fim.adicionarArestaEntrada(aresta);
         this.arestas.add(aresta);
     }
 
-    public Vertice<Interger> getVertice(Interger dado) {
-        Vertice<Interger> vertice = null;
+    public Vertice<T> getVertice(T dado) {
+        Vertice<T> vertice = null;
         for (int i = 0; i < this.vertices.size(); i++) {
             if (this.vertices.get(i).getDado().equals(dado)) {
                 vertice = this.vertices.get(i);
@@ -45,18 +48,21 @@ public class Grafo<Interger> {
         }
         return vertice;
     }
+    public boolean contemVertice(T dado) {
+        return this.getVertice(dado) != null;
+    }
 
     public void buscaEmLargura() {
-        ArrayList<Vertice<Interger>> marcados = new ArrayList<Vertice<Interger>>();
-        ArrayList<Vertice<Interger>> fila = new ArrayList<Vertice<Interger>>();
-        Vertice<Interger> atual = this.vertices.get(0);
+        ArrayList<Vertice<T>> marcados = new ArrayList<Vertice<T>>();
+        ArrayList<Vertice<T>> fila = new ArrayList<Vertice<T>>();
+        Vertice<T> atual = this.vertices.get(0);
         marcados.add(atual);
         System.out.println(atual.getDado());
         fila.add(atual);
         while (fila.size() > 0) {
-            Vertice<Interger> visitado = fila.get(0);
+            Vertice<T> visitado = fila.get(0);
             for (int i = 0; i < visitado.getArestasSaida().size(); i++) {
-                Vertice<Interger> proximo = visitado.getArestasSaida().get(i).getFim();
+                Vertice<T> proximo = visitado.getArestasSaida().get(i).getFim();
                 if (!marcados.contains(proximo)) {
                     marcados.add(proximo);
                     System.out.println(proximo.getDado());
@@ -68,8 +74,8 @@ public class Grafo<Interger> {
     }
 
     public void buscaEmProfundidade() {
-        ArrayList<Vertice<Interger>> marcados = new ArrayList<Vertice<Interger>>();
-        for (Vertice<Interger> vertice : this.vertices) {
+        ArrayList<Vertice<T>> marcados = new ArrayList<Vertice<T>>();
+        for (Vertice<T> vertice : this.vertices) {
             if (!marcados.contains(vertice)) {
                 dfsRecursivo(vertice, marcados);
             }
@@ -79,7 +85,7 @@ public class Grafo<Interger> {
     public boolean verificaVerticeRaiz() {
         if (this.vertices.isEmpty()) return false;
 
-        for (Vertice<Interger> vertice : this.vertices) {
+        for (Vertice<T> vertice : this.vertices) {
             if (isVerticeRaizDFS(vertice)) {
                 System.out.println("O VR é: " + vertice.getDado());
                 return true;
@@ -89,24 +95,24 @@ public class Grafo<Interger> {
         return false;
     }
 
-    private boolean isVerticeRaizDFS(Vertice<Interger> vertice) {
-        ArrayList<Vertice<Interger>> visitados = new ArrayList<Vertice<Interger>>();
+    private boolean isVerticeRaizDFS(Vertice<T> vertice) {
+        ArrayList<Vertice<T>> visitados = new ArrayList<Vertice<T>>();
         dfsRecursivo(vertice, visitados);
         return visitados.size() == this.vertices.size();
     }
-    private void dfsRecursivo(Vertice<Interger> vertice, ArrayList<Vertice<Interger>> marcados) {
+    private void dfsRecursivo(Vertice<T> vertice, ArrayList<Vertice<T>> marcados) {
         marcados.add(vertice);
-        System.out.println(vertice.getDado());
-        for (Aresta<Interger> aresta : vertice.getArestasSaida()) {
-            Vertice<Interger> proximo = aresta.getFim();
+        //System.out.println(vertice.getDado());
+        for (Aresta<T> aresta : vertice.getArestasSaida()) {
+            Vertice<T> proximo = aresta.getFim();
             if (!marcados.contains(proximo)) {
                 dfsRecursivo(proximo, marcados);
             }
         }
     }
 
-    public void mostrarLigacoesVertice(Interger dado) {
-        Vertice<Interger> vertice = this.getVertice(dado);
+    public void mostrarLigacoesVertice(T dado) {
+        Vertice<T> vertice = this.getVertice(dado);
         if (vertice != null) {
             int ligacoes = vertice.contarLigacoes();
             System.out.println("O vértice " + dado + " tem " + ligacoes + " ligações.");
@@ -114,4 +120,46 @@ public class Grafo<Interger> {
             System.out.println("Vértice não encontrado.");
         }
     }
+
+    public void carregarDeArquivo(String nomeArquivo) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(nomeArquivo));
+        String linha;
+
+        while ((linha = br.readLine()) != null) {
+            // Remove espaços em branco ao redor da linha
+            linha = linha.trim();
+
+            // Verifica se a linha não está vazia
+            if (!linha.isEmpty()) {
+                // Verifica se a linha contém uma aresta (contém ';')
+                if (linha.contains(";")) {
+                    String[] vertices = linha.split(";");
+
+                    // Remover espaços em branco dos vértices
+                    T valorInicio = (T) vertices[0].trim();
+                    T valorFim = (T) vertices[1].trim();
+
+                    // Verifica se os vértices não são vazios
+                    if (!valorInicio.equals("") && !valorFim.equals("")) {
+                        if (!contemVertice(valorInicio)) {
+                            adicionarVertice(valorInicio);
+                        }
+                        if (!contemVertice(valorFim)) {
+                            adicionarVertice(valorFim);
+                        }
+                        adicionarAresta(valorInicio, valorFim);
+                    }
+                } else {
+                    // Caso contrário, trata como um vértice isolado
+                    T valorVertice = (T) linha.trim();
+                    if (!contemVertice(valorVertice)) {
+                        adicionarVertice(valorVertice);
+                    }
+                }
+            }
+        }
+
+        br.close();
+    }
+
 }

@@ -2,45 +2,45 @@ package Grafo.src.Q3;
 
 import java.util.ArrayList;
 
-public class Vertice <Interger> {
-    private Interger dado;
-    private ArrayList<Aresta<Interger>> arestasEntrada;
-    private ArrayList<Aresta<Interger>> arestasSaida;
+public class Vertice <T> {
+    private T dado;
+    private ArrayList<Aresta<T>> arestasEntrada;
+    private ArrayList<Aresta<T>> arestasSaida;
 
-    public Vertice(Interger valor){
+    public Vertice(T valor){
         this.dado = valor;
-        this.arestasEntrada = new ArrayList<Aresta<Interger>> ();
-        this.arestasSaida = new ArrayList<Aresta<Interger>> ();
+        this.arestasEntrada = new ArrayList<Aresta<T>> ();
+        this.arestasSaida = new ArrayList<Aresta<T>> ();
     }
 
-    public Interger getDado() {
+    public T getDado() {
         return dado;
     }
 
-    public void setDado(Interger dado) {
+    public void setDado(T dado) {
         this.dado = dado;
     }
-    public void adicionarArestaEntrada(Aresta<Interger> aresta){
+    public void adicionarArestaEntrada(Aresta<T> aresta){
         this.arestasEntrada.add(aresta);
     }
-    public void adicionarArestaSaida(Aresta<Interger> aresta){
+    public void adicionarArestaSaida(Aresta<T> aresta){
         this.arestasSaida.add(aresta);
 
     }
 
-    public ArrayList<Aresta<Interger>> getArestasEntrada() {
+    public ArrayList<Aresta<T>> getArestasEntrada() {
         return arestasEntrada;
     }
 
-    public void setArestasEntrada(ArrayList<Aresta<Interger>> arestasEntrada) {
+    public void setArestasEntrada(ArrayList<Aresta<T>> arestasEntrada) {
         this.arestasEntrada = arestasEntrada;
     }
 
-    public ArrayList<Aresta<Interger>> getArestasSaida() {
+    public ArrayList<Aresta<T>> getArestasSaida() {
         return arestasSaida;
     }
 
-    public void setArestasSaida(ArrayList<Aresta<Interger>> arestasSaida) {
+    public void setArestasSaida(ArrayList<Aresta<T>> arestasSaida) {
         this.arestasSaida = arestasSaida;
     }
     public int contarLigacoes() {
