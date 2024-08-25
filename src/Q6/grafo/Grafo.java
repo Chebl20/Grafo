@@ -2,6 +2,9 @@ package Grafo.src.Q6.grafo;
 
 import Grafo.src.Q5.Estruturas.UnionFind;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Grafo<T extends Comparable<T>> {
@@ -50,33 +53,62 @@ public class Grafo<T extends Comparable<T>> {
     }
 
     public List<Aresta<T>> chevi() {
-        List<Aresta<T>> arestas = new ArrayList<>();
         List<Aresta<T>> mst = new ArrayList<>();
-        UnionFind uf = new UnionFind(vertices.size());
+        if (vertices.isEmpty()) return mst;
 
-        // Adicionar as arestas não duplicadas
-        for (Vertice<T> vertice : vertices) {
-            for (Aresta<T> aresta : vertice.getAdjacentes()) {
-                if (aresta.getVertice1().compareTo(aresta.getVertice2()) < 0) {
-                    arestas.add(aresta);
-                }
-            }
+        Set<Vertice<T>> visitados = new HashSet<>();
+        List<Aresta<T>> candidatos = new ArrayList<>();
+        Map<Vertice<T>, PriorityQueue<Aresta<T>>> arestasPorVertice = new HashMap<>();
+        Vertice<T> inicio = vertices.get(0); // Começar pelo primeiro vértice
+
+        visitados.add(inicio);
+        candidatos.addAll(inicio.getAdjacentes());
+
+        for (Aresta<T> aresta : inicio.getAdjacentes()) {
+            Vertice<T> adj = aresta.getVertice2();
+            arestasPorVertice.computeIfAbsent(adj, k -> new PriorityQueue<>(Comparator.comparingDouble(Aresta<T>::getPeso)))
+                    .add(aresta);
         }
 
-        // Ordenar as arestas pelo peso
-        bubbleSort(arestas);
+        while (visitados.size() < vertices.size()) {
+            // Encontre a aresta de menor peso entre os candidatos que conecta um vértice visitado com um não visitado
+            Aresta<T> arestaEscolhida = null;
+            Vertice<T> verticeEscolhido = null;
 
-        // Construir a MST
-        for (Aresta<T> aresta : arestas) {
-            Vertice<T> v1 = aresta.getVertice1();
-            Vertice<T> v2 = aresta.getVertice2();
+            for (Aresta<T> aresta : candidatos) {
+                Vertice<T> v1 = aresta.getVertice1();
+                Vertice<T> v2 = aresta.getVertice2();
+                if (visitados.contains(v1) && !visitados.contains(v2)) {
+                    if (arestaEscolhida == null || aresta.getPeso() < arestaEscolhida.getPeso()) {
+                        arestaEscolhida = aresta;
+                        verticeEscolhido = v2;
+                    }
+                } else if (visitados.contains(v2) && !visitados.contains(v1)) {
+                    if (arestaEscolhida == null || aresta.getPeso() < arestaEscolhida.getPeso()) {
+                        arestaEscolhida = aresta;
+                        verticeEscolhido = v1;
+                    }
+                }
+            }
 
-            int root1 = uf.find(pegarIndice(v1));
-            int root2 = uf.find(pegarIndice(v2));
+            if (arestaEscolhida != null) {
+                mst.add(arestaEscolhida);
+                visitados.add(verticeEscolhido);
+                candidatos.remove(arestaEscolhida);
 
-            if (root1 != root2) {
-                mst.add(aresta);
-                uf.union(root1, root2);
+                // Adicione novas arestas candidatas
+                for (Aresta<T> aresta : verticeEscolhido.getAdjacentes()) {
+                    Vertice<T> adj = aresta.getVertice2();
+                    if (!visitados.contains(adj)) {
+                        candidatos.add(aresta);
+                        arestasPorVertice.computeIfAbsent(adj, k -> new PriorityQueue<>(Comparator.comparingDouble(Aresta<T>::getPeso)))
+                                .add(aresta);
+                    }
+                }
+            } else {
+                // Se não houver arestas disponíveis para expansão, o grafo pode estar desconexo
+                System.out.println("O grafo pode estar desconexo.");
+                break;
             }
         }
 
@@ -168,6 +200,62 @@ public class Grafo<T extends Comparable<T>> {
             }
         }
     }
+
+    public boolean contemVertice(T dado) {
+        return this.pegarVertice(dado) != null;
+    }
+    public void carregarDeArquivo(String nomeArquivo) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                linha = linha.trim();  // Remove espaços em branco ao redor da linha
+
+                if (!linha.isEmpty()) {
+                    if (linha.contains(";")) {
+                        String[] partes = linha.split(";");
+
+                        if (partes.length >= 2) {
+                            // Verifica se há pelo menos 2 partes e se a linha é válida
+                            T valorInicio = (T) partes[0].trim();
+                            T valorFim = (T) partes[1].trim();
+                            String pesoString = partes.length > 2 ? partes[2].trim() : null;
+
+                            // Verifica se os vértices não são vazios e o peso é válido
+                            if (!valorInicio.equals("") && !valorFim.equals("") && (pesoString == null || !pesoString.equals(""))) {
+                                double peso;
+                                try {
+                                    peso = pesoString != null ? Double.parseDouble(pesoString) : 0.0;
+                                } catch (NumberFormatException e) {
+                                    System.err.println("Peso inválido na linha: " + linha);
+                                    continue; // Ignora a linha com peso inválido
+                                }
+
+                                if (!contemVertice(valorInicio)) {
+                                    inserirVertice(valorInicio);
+                                }
+                                if (!contemVertice(valorFim)) {
+                                    inserirVertice(valorFim);
+                                }
+                                inserirAresta(valorInicio, valorFim, peso);
+                            }
+                        } else {
+                            System.err.println("Linha inválida: " + linha);
+                        }
+                    } else {
+                        // Caso contrário, trata como um vértice isolado
+                        T valorVertice = (T) linha.trim();
+                        if (!valorVertice.equals("")) {
+                            if (!contemVertice(valorVertice)) {
+                                inserirVertice(valorVertice);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private int pegarIndice(Vertice<T> v) {
         return vertices.indexOf(v);

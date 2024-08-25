@@ -4,6 +4,7 @@ import Grafo.src.Q5.grafo.Grafo;
 import Grafo.src.Q5.grafo.Vertice;
 import Grafo.src.Q5.grafo.Aresta;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
@@ -11,26 +12,34 @@ public class Main {
         // Cria um grafo com vértices do tipo String
         Grafo<String> grafo = new Grafo<>();
 
-        grafo.inserirVertice("A");
-        grafo.inserirVertice("B");
-        grafo.inserirVertice("C");
-        grafo.inserirVertice("D");
-        grafo.inserirVertice("E");
-        grafo.inserirVertice("F");
-        grafo.inserirVertice("G");
+        try {
+            System.out.println("Grafo por arquivo:");
+            grafo.carregarDeArquivo("src/Grafo/src/Q5/arquivo4.txt");
+//            grafo.ehBipartido();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Adiciona arestas com pesos
-        grafo.inserirAresta("A", "B", 7.0);
-        grafo.inserirAresta("A", "G", 5.0);
-        grafo.inserirAresta("B", "C", 8.0);
-        grafo.inserirAresta("B", "D", 7.0);
-        grafo.inserirAresta("B", "G", 9.0);
-        grafo.inserirAresta("C", "D", 5.0);
-        grafo.inserirAresta("D", "E", 9.0);
-        grafo.inserirAresta("E", "F", 11.0);
-        grafo.inserirAresta("F", "D", 8.0);
-        grafo.inserirAresta("F", "G", 6.0);
-        grafo.inserirAresta("G", "D", 15.0);
+//        grafo.inserirVertice("A");
+//        grafo.inserirVertice("B");
+//        grafo.inserirVertice("C");
+//        grafo.inserirVertice("D");
+//        grafo.inserirVertice("E");
+//        grafo.inserirVertice("F");
+//        grafo.inserirVertice("G");
+//
+//        // Adiciona arestas com pesos
+//        grafo.inserirAresta("A", "B", 7.0);
+//        grafo.inserirAresta("A", "G", 5.0);
+//        grafo.inserirAresta("B", "C", 8.0);
+//        grafo.inserirAresta("B", "D", 7.0);
+//        grafo.inserirAresta("B", "G", 9.0);
+//        grafo.inserirAresta("C", "D", 5.0);
+//        grafo.inserirAresta("D", "E", 9.0);
+//        grafo.inserirAresta("E", "F", 11.0);
+//        grafo.inserirAresta("F", "D", 8.0);
+//        grafo.inserirAresta("F", "G", 6.0);
+//        grafo.inserirAresta("G", "D", 15.0);
 
 
 

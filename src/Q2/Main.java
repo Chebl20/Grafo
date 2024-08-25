@@ -18,35 +18,35 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // Inserindo vértices
-        meuGrafo.inserirVertice(0);
-        meuGrafo.inserirVertice(1);
-        meuGrafo.inserirVertice(2);
-        meuGrafo.inserirVertice(3);
-        meuGrafo.inserirVertice(4);
-        meuGrafo.inserirVertice(5);
-        meuGrafo.inserirVertice(6);
-        meuGrafo.inserirVertice(7);
-
-        // Inserindo arestas
-        meuGrafo.inserirAresta(0, 1);
-        meuGrafo.inserirAresta(2, 3);
-        meuGrafo.inserirAresta(0, 2);
-        meuGrafo.inserirAresta(2, 4);
-        meuGrafo.inserirAresta(4, 5);
-        meuGrafo.inserirAresta(3, 1);
-        meuGrafo.inserirAresta(3, 5);
-        meuGrafo.inserirAresta(6, 7);
+//
+//        // Inserindo vértices
+//        meuGrafo.inserirVertice(0);
+//        meuGrafo.inserirVertice(1);
+//        meuGrafo.inserirVertice(2);
+//        meuGrafo.inserirVertice(3);
+//        meuGrafo.inserirVertice(4);
+//        meuGrafo.inserirVertice(5);
+//        meuGrafo.inserirVertice(6);
+//        meuGrafo.inserirVertice(7);
+//
+//        // Inserindo arestas
+//        meuGrafo.inserirAresta(0, 1);
+//        meuGrafo.inserirAresta(2, 3);
+//        meuGrafo.inserirAresta(0, 2);
+//        meuGrafo.inserirAresta(2, 4);
+//        meuGrafo.inserirAresta(4, 5);
+//        meuGrafo.inserirAresta(3, 1);
+//        meuGrafo.inserirAresta(3, 5);
+//        meuGrafo.inserirAresta(6, 7);
 
 
         // Imprimindo o grafo
-        System.out.println("Grafo:");
-        meuGrafo.imprimirGrafo();
-
-        // Imprimindo os tempos de chegada e partida
-        System.out.println("\nTempos de Chegada e Partida dos Vértices:");
-        meuGrafo.imprimirTemposDFS();
+//        System.out.println("Grafo:");
+//        meuGrafo.imprimirGrafo();
+//
+//        // Imprimindo os tempos de chegada e partida
+//        System.out.println("\nTempos de Chegada e Partida dos Vértices:");
+//        meuGrafo.imprimirTemposDFS();
     }
 }
 //resposta esperada

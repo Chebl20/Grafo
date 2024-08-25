@@ -4,6 +4,7 @@ import Grafo.src.Q6.grafo.Aresta;
 import Grafo.src.Q6.grafo.Grafo;
 import Grafo.src.Q6.grafo.Vertice;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
@@ -11,7 +12,15 @@ public class Main {
         // Criação do grafo
         Grafo<String> grafo = new Grafo<>();
 
-        // Inserir vértices
+//        try {
+//            System.out.println("Grafo por arquivo:");
+//            grafo.carregarDeArquivo("src/Grafo/src/Q6/arquivo5.txt");
+////            grafo.ehBipartido();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+////         Inserir vértices
         grafo.inserirVertice("A");
         grafo.inserirVertice("B");
         grafo.inserirVertice("C");
@@ -37,7 +46,6 @@ public class Main {
 
         grafo.inserirAresta("B", "G", 9.0);
 
-        // Calcular a MST usando Kruskal
         List<Aresta<String>> mst = grafo.chevi();
         System.out.println("Árvore Geradora Mínima:");
         for (Aresta<String> aresta : mst) {
@@ -45,7 +53,7 @@ public class Main {
         }
 
         // Gerar um ciclo a partir da MST
-        Vertice<String> verticeOrigem = grafo.pegarVertice("A");
+        Vertice<String> verticeOrigem = grafo.pegarVertice("G");
         List<Vertice<String>> ciclo = grafo.geraCiclo(verticeOrigem);
         System.out.println("\nRota calculada :");
         grafo.imprimirCiclo(ciclo);

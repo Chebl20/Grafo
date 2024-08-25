@@ -2,6 +2,9 @@ package Grafo.src.Q5.grafo;
 
 import Grafo.src.Q5.Estruturas.UnionFind;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Grafo<T extends Comparable<T>> {
@@ -104,7 +107,7 @@ public class Grafo<T extends Comparable<T>> {
             }
         }
 
-        Collections.sort(arestas, Comparator.comparingDouble(Aresta::getPeso));
+        bubbleSort(arestas);
 
         for (Aresta<T> aresta : arestas) {
             Vertice<T> v1 = aresta.getVertice1();
@@ -121,6 +124,29 @@ public class Grafo<T extends Comparable<T>> {
 
         return mst;
     }
+
+
+    public void bubbleSort(List<Aresta<T>> arestas) {
+        int n = arestas.size();
+        boolean trocou;
+
+        do {
+            trocou = false;
+            for (int i = 0; i < n - 1; i++) {
+                Aresta<T> a1 = arestas.get(i);
+                Aresta<T> a2 = arestas.get(i + 1);
+
+                // Comparar os pesos em ordem decrescente
+                if (a1.getPeso() < a2.getPeso()) {
+                    // Trocar se o peso da aresta atual for menor que o da próxima
+                    Collections.swap(arestas, i, i + 1);
+                    trocou = true;
+                }
+            }
+            n--; // Reduz o tamanho da parte não ordenada
+        } while (trocou); // Continua até que nenhuma troca seja feita
+    }
+
 
     private int pegarIndice(Vertice<T> v) {
         return vertices.indexOf(v);
@@ -163,4 +189,57 @@ public class Grafo<T extends Comparable<T>> {
 
         return mst;
     }
+
+    public boolean contemVertice(T dado) {
+        return this.pegarVertice(dado) != null;
+    }
+    public void carregarDeArquivo(String nomeArquivo) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(nomeArquivo));
+        String linha;
+
+        while ((linha = br.readLine()) != null) {
+            // Remove espaços em branco ao redor da linha
+            linha = linha.trim();
+
+            // Verifica se a linha não está vazia
+            if (!linha.isEmpty()) {
+                // Verifica se a linha contém uma aresta (contém ';')
+                if (linha.contains(";")) {
+                    String[] partes = linha.split(";");
+
+                    // Verifica se há pelo menos 2 partes e se a linha é válida
+                    if (partes.length >= 2) {
+                        // Remove espaços em branco dos vértices e peso
+                        T valorInicio = (T) partes[0].trim();
+                        T valorFim = (T) partes[1].trim();
+                        String pesoString = partes.length > 2 ? partes[2].trim() : null;
+
+                        // Verifica se os vértices não são vazios e o peso é válido
+                        if (!valorInicio.equals("") && !valorFim.equals("") && (pesoString == null || !pesoString.equals(""))) {
+                            double peso = pesoString != null ? Double.parseDouble(pesoString) : 0.0;
+
+                            if (!contemVertice(valorInicio)) {
+                                inserirVertice(valorInicio);
+                            }
+                            if (!contemVertice(valorFim)) {
+                                inserirVertice(valorFim);
+                            }
+                            inserirAresta(valorInicio, valorFim, peso);
+                        }
+                    }
+                } else {
+                    // Caso contrário, trata como um vértice isolado
+                    T valorVertice = (T) linha.trim();
+                    if (!valorVertice.equals("")) {
+                        if (!contemVertice(valorVertice)) {
+                            inserirVertice(valorVertice);
+                        }
+                    }
+                }
+            }
+        }
+
+        br.close();
+    }
+
 }
