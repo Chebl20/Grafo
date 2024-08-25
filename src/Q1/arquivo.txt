@@ -1,0 +1,5 @@
+VerticeA
+VerticeB
+VerticeC
+VerticeA;VerticeC
+VerticeB;VerticeC
