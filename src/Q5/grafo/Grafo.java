@@ -100,14 +100,12 @@ public class Grafo<T extends Comparable<T>> {
 
         for (Vertice<T> vertice : vertices) {
             for (Aresta<T> aresta : vertice.getAdjacentes()) {
-                // Adicionar a aresta apenas se não for duplicada
-                if (aresta.getVertice1().compareTo(aresta.getVertice2()) < 0) {
-                    arestas.add(aresta);
-                }
+                arestas.add(aresta);
             }
         }
 
         bubbleSort(arestas);
+//        Collections.sort(arestas, (a1, a2) -> Double.compare(a1.getPeso(), a2.getPeso()));
 
         for (Aresta<T> aresta : arestas) {
             Vertice<T> v1 = aresta.getVertice1();
@@ -136,9 +134,9 @@ public class Grafo<T extends Comparable<T>> {
                 Aresta<T> a1 = arestas.get(i);
                 Aresta<T> a2 = arestas.get(i + 1);
 
-                // Comparar os pesos em ordem decrescente
-                if (a1.getPeso() < a2.getPeso()) {
-                    // Trocar se o peso da aresta atual for menor que o da próxima
+                // Comparar os pesos em ordem crescente
+                if (a1.getPeso() > a2.getPeso()) {
+                    // Trocar se o peso da aresta atual for maior que o da próxima
                     Collections.swap(arestas, i, i + 1);
                     trocou = true;
                 }
